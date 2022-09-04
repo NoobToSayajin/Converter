@@ -28,7 +28,7 @@ def DecToBin(pN0:float):
     if(f!=0.0 and c!=0):
         c-=1
         floatLst.append(f)
-        binary += ","
+        binary += "."
         while(f!=0.0):
             f*=2
             fBin=floor(f)
@@ -111,7 +111,7 @@ def DecToHex(pN0:float):
 
     if(f!=0.0):
         floatLst.append(f)
-        hexa += ","
+        hexa += "."
         while(f!=0.0 and c!=0):
             c-=1
             f*=16
@@ -136,3 +136,83 @@ def DecToHex(pN0:float):
     result = l+c+l
 
     return hexa
+
+# Binary to Decimal
+def BinToDec(pS:str):
+    decInt=0
+    decFloat=0
+    string = pS.split(".")
+    sInt=list(string[0])
+    sInt.reverse()
+
+    if (1<len(string)):
+        sFlt=list(string[1])
+        for inx in range(len(sFlt)):
+            decFloat += int(sFlt[inx])* 2**-(inx+1)
+    
+    for inx in range(len(sInt)):
+        decInt += int(sInt[inx])* 2**inx
+
+    dec=decInt+decFloat
+    
+    return dec
+
+# Hexadecimal to Decimal
+def HexToDec(pS:str):
+    decInt=0
+    decFloat=0
+    string = pS.split(".")
+    sInt=list(string[0])
+    sInt.reverse()
+
+    def hex(pN):
+        match pN:
+            case "A"|"a":
+                H = 10
+                return H
+            case "B"|"b":
+                H = 11
+                return H
+            case "C"|"c":
+                H = 12
+                return H
+            case "D"|"d":
+                H = 13
+                return H
+            case "E"|"e":
+                H = 14
+                return H
+            case "F"|"f":
+                H = 15
+                return H
+            case _:
+                H = pN
+                return H
+
+    if (1<len(string)):
+        sFlt=list(string[1])
+        for idx in range(len(sFlt)):
+            sFlt[idx] = hex(sFlt[idx])
+            decFloat += int(sFlt[idx])* 16**-(idx+1)
+    
+    for idx in range(len(sInt)):
+        sInt[idx] = hex(sInt[idx])
+        decInt += int(sInt[idx])* 16**idx
+
+    dec=decInt+decFloat
+    
+    return dec
+
+# Binary to Hexadecimal
+def BinToHex(pS:str):
+    bin = BinToDec(pS)
+    hexa = DecToHex(bin)
+    
+    return hexa
+
+# Hexadecimal to Binary
+def HexToBin(pS:str):
+    hexa = HexToDec(pS)
+    bin = DecToBin(hexa)
+    
+    return bin
